@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { useContext, useEffect } from 'react'
 import { UserContext } from "@/components/UserContext";
-
 import { Menu } from "lucide-react";
 
 import {
@@ -16,6 +15,15 @@ import {
     SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet";
+
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
     const router = useRouter();
@@ -56,30 +64,54 @@ const Navbar = () => {
 
             <ul className="hidden lg:flex items-center gap-6 font-medium">
                 <li>
-                    <Link className="hover:text-blue-400 duration-200" href="/blog">Blog Sayfası</Link>
+                    <Link className="hover:text-blue-400 duration-200" href="/blog">
+                        Blog Sayfası
+                    </Link>
                 </li>
 
                 {currentUser?.role === "ADMIN" && (
                     <li>
-                        <Link className="hover:text-blue-400 duration-200" href="/create-blog">Blog Oluştur</Link>
+                        <Link className="hover:text-blue-400 duration-200" href="/create-blog">
+                            Blog Oluştur
+                        </Link>
                     </li>
                 )}
 
                 {currentUser ? (
                     <li>
-                        <Avatar className="cursor-pointer">
-                            <AvatarFallback>
-                                {currentUser.username.slice(0, 2).toUpperCase()}
-                            </AvatarFallback>
-                        </Avatar>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Avatar className="cursor-pointer">
+                                    <AvatarFallback>
+                                        {currentUser.username.slice(0, 2).toUpperCase()}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end" className="w-48">
+                                <DropdownMenuLabel>
+                                    {currentUser.username}
+                                </DropdownMenuLabel>
+
+                                <DropdownMenuSeparator />
+
+                                <DropdownMenuItem onClick={handleLogout} className="text-red-500 cursor-pointer">
+                                    Çıkış Yap
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </li>
                 ) : (
                     <>
                         <li>
-                            <Link className="hover:text-blue-400 duration-200" href="/login">Giriş</Link>
+                            <Link className="hover:text-blue-400 duration-200" href="/login">
+                                Giriş
+                            </Link>
                         </li>
                         <li>
-                            <Link className="hover:text-blue-400 duration-200" href="/register">Kaydol</Link>
+                            <Link className="hover:text-blue-400 duration-200" href="/register">
+                                Kaydol
+                            </Link>
                         </li>
                     </>
                 )}
@@ -92,7 +124,6 @@ const Navbar = () => {
                     </SheetTrigger>
 
                     <SheetContent side="left" className="px-6 py-10 bg-black/95 text-white">
-
                         <SheetHeader>
                             <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                         </SheetHeader>
@@ -118,7 +149,9 @@ const Navbar = () => {
                                                 {currentUser.username.slice(0, 2).toUpperCase()}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <span className="text-xl font-medium">{currentUser.username}</span>
+                                        <span className="text-xl font-medium">
+                                            {currentUser.username}
+                                        </span>
                                     </div>
 
                                     <button
@@ -139,7 +172,6 @@ const Navbar = () => {
                                 </>
                             )}
                         </div>
-
                     </SheetContent>
                 </Sheet>
             </div>
