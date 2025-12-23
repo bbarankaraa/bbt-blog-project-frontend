@@ -29,7 +29,7 @@ export default function BlogClient() {
         </div>
       ) : (
         <div className="flex items-center justify-center h-96">
-          <h3>Henüz blog paylaşmadık :)</h3>
+          <h3>Yükleniyor...</h3>
         </div>
       )}
     </main>
