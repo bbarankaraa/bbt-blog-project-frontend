@@ -1,9 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import FirstBlog from "@/components/FirstBlog";
 import OtherBlogs from "@/components/OtherBlogs";
+import { postService } from "@/services/postService";
 
-export default function BlogClient({ firstBlog, otherBlogs }) {
+export default function BlogClient() {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    postService.getAllPosts().then((data) => {
+      setBlogs(data || []);
+    });
+  }, []);
+
+  const firstBlog = blogs.length ? blogs[blogs.length - 1] : null;
+  const otherBlogs = blogs.length ? blogs.slice(0, -1) : [];
 
   return (
     <main>
@@ -16,8 +28,8 @@ export default function BlogClient({ firstBlog, otherBlogs }) {
           <OtherBlogs otherBlogs={otherBlogs} />
         </div>
       ) : (
-        <div className="flex items-center justify-center h-96 ">
-          <h3>Henüz blog paylaşmadık {":)"}</h3>
+        <div className="flex items-center justify-center h-96">
+          <h3>Henüz blog paylaşmadık :)</h3>
         </div>
       )}
     </main>
